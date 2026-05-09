@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="true">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#1f4788">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="icon-512.png">
+  
+  <title>Gestor de Cargas</title>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script type="module" src="./scripts/main.js"></script>
+  <link rel="stylesheet" href="./styles.css">
+
+
+  <!-- Enlace al Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Color de la barra de estado en Android -->
+  <meta name="theme-color" content="#317EFB">
+
+  <!-- Registro del Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('Service Worker registrado', reg))
+          .catch(err => console.error('Error al registrar', err));
+      });
+    }
+  </script>
+
+</head>
+<body>
+<!-- Android Header Bar -->
+<header class="android-header">
+  <div class="header-content">
+    <h1>Gestor de AWBs</h1>
+  </div>
+</header>
+
+<main class="android-container">
+  <!-- File Input & Controls -->
+  <div class="android-controls">
+    <div class="control-group">
+      <label for="fileInput" class="btn-file">
+        <span>📤 Cargar Archivo</span>
+        <input type="file" id="fileInput"/>
+      </label>
+    </div>
+
+    <div class="control-group">
+      <input type="number" id="mawb-filter" min="0" list="mawb-list" placeholder="Filtrar MAWB.." class="input-field">
+      <datalist id="mawb-list"></datalist>
+    </div>
+
+    <div class="control-group">
+      <input type="date" id="mawb-date-filter" placeholder="Filtrar por fecha" class="input-field">
+    </div>
+
+    <div class="control-group">
+      <button id="export-excel-btn" class="btn-primary">📥 Exportar Excel</button>
+    </div>
+  </div>
+
+  <div id="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando datos...</p>
+  </div>
+
+  <!-- Data Display -->
+  <section class="data android-list">
+    <!-- Registros se generan dinámicamente -->
+  </section>
+
+  <!-- Detail Popup -->
+  <section class="popup_backdrop hidden">
+    <div class="popup-card">
+      <div class="popup-header">
+        <h2>Detalles MAWB</h2>
+        <button class="btn-close" aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="info_container">
+        <span class="reg-top">
+          <strong>MAWB:</strong>
+          <strong class="selected_mawb">...</strong>
+        </span>
+
+        <span class="mawb-date">
+          <strong>Fecha:</strong>
+          <strong class="selected_date">...</strong>
+        </span>
+        
+        <span class="date-editor">
+          <label for="mawb-date-input">Editar fecha:</label>
+          <input type="date" id="mawb-date-input" class="input-field">
+        </span>
+
+        <span class="headers">
+          <strong>HAWB</strong>
+          <strong>PCS Esp</strong>
+          <strong>PCS Real</strong>
+          <strong>WGT Esp</strong>
+          <strong>WGT Real</strong>
+        </span>
+
+        <input type="text" id="hawb-filter" list="hawb-list" placeholder="Filtrar HAWB..." class="input-field">
+        <datalist id="hawb-list"></datalist>
+
+        <div class="rows"></div>
+
+        <span class="total">
+          <strong>TOTAL</strong>
+          <p class="total_pcs">...</p>
+          <p class="total_pcs_real">...</p>
+          <p class="total_wgt">...</p>
+          <p class="total_wgt_real">...</p>
+        </span>
+
+        <button class="btn-save-all">Guardar Cambios</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="android-footer">
+  <p>Proyecto Informático - Enrique Molina - USTA</p>
+</footer>
+</body>
+</html>
