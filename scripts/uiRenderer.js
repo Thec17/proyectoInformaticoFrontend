@@ -231,9 +231,9 @@ export function renderHawb(mawb) {
     
     row.innerHTML = `
       <p class="hawb">${hawb}</p>
-      <p class="pcs"><span class="label">Esperado:</span> ${formattedData[mawb]["elements"][hawb]["PCS"]}</p>
+      <p class="pcs">${formattedData[mawb]["elements"][hawb]["PCS"]}</p>
       <p class="pcs"><input type="number" min="0" class="input-pcs" placeholder="Real" data-hawb="${hawb}" value="${initialPCS}"></p>
-      <p class="wgt"><span class="label">Esperado:</span> ${formattedData[mawb]["elements"][hawb]["WGT"]}</p>
+      <p class="wgt">${formattedData[mawb]["elements"][hawb]["WGT"]}</p>
       <p class="wgt"><input type="number" min="0" class="input-wgt" placeholder="Real" data-hawb="${hawb}" value="${initialWGT}"></p>
     `;
 
@@ -413,9 +413,9 @@ export function renderHawb(mawb) {
     });
     
     if (hasSavedData) {
-      alert("✅ Cambios guardados correctamente (Datos + Fecha)");
+      alert("Cambios guardados correctamente");
     } else {
-      alert("✅ Fecha actualizada correctamente");
+      alert("Fecha actualizada correctamente");
     }
   });
   
