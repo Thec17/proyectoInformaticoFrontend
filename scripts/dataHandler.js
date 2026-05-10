@@ -1,5 +1,6 @@
 // dataHandler.js
 const BACKEND_URL = "https://proyectoinformaticobackend.onrender.com";
+// const BACKEND_URL = "http://127.0.0.1:8000";
 
 export let groups = [];
 export let dataLoaded;
@@ -181,6 +182,67 @@ export async function updateHawbReal(mawbNumber, hawbNumber, realPcs, realWgt) {
     return result;
   } catch (error) {
     console.error("Error updating HAWB:", error);
+    alert(`Error: ${error.message}`);
+    throw error;
+  }
+}
+
+// Función para actualizar la fecha del MAWB en el backend
+export async function updateMawbDate(mawbNumber, newDate) {
+  try {
+    // Convertir colombiano (DD/MM/YYYY) a ISO (YYYY-MM-DD) si es necesario
+    let dateToSend = newDate;
+    if (newDate.includes('/')) {
+      const [day, month, year] = newDate.split('/');
+      dateToSend = `${year}-${month}-${day}`;
+    }
+
+    const response = await fetch(`${BACKEND_URL}/mawb/${mawbNumber}/date`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        date: dateToSend
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Error al actualizar la fecha: ${response.status}`);
+    }
+    
+    const result = await response.json();
+    console.log("MAWB date updated:", result);
+    
+    return result;
+  } catch (error) {
+    console.error("Error updating MAWB date:", error);
+    throw error;
+  }
+}
+
+// Función para borrar un MAWB del backend
+export async function deleteMawb(mawbNumber) {
+  try {
+    const response = await fetch(`${BACKEND_URL}/mawb/${mawbNumber}`, {
+      method: "DELETE"
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Error al borrar MAWB: ${response.status}`);
+    }
+    
+    const result = await response.json();
+    console.log("MAWB deleted:", result);
+    
+    // Actualizar formattedData localmente
+    if (formattedData[mawbNumber]) {
+      delete formattedData[mawbNumber];
+    }
+    
+    return result;
+  } catch (error) {
+    console.error("Error deleting MAWB:", error);
     alert(`Error: ${error.message}`);
     throw error;
   }
