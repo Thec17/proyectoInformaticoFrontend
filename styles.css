@@ -246,7 +246,7 @@ main.android-container {
 }
 
 .delete-mawb-btn {
-    opacity: 0;
+    opacity: .75;
     position: relative;
     background-color: #dc3545;
     color: white;
@@ -259,10 +259,6 @@ main.android-container {
     margin-right: 0;
     right: 0;
     transition: all 0.3s ease;
-}
-
-.reg:hover .delete-mawb-btn {
-    opacity: 1;
 }
 
 .delete-mawb-btn:active {
