@@ -1,5 +1,5 @@
 // uiRenderer.js
-import { formattedData, updateHawbReal } from './dataHandler.js';
+import { formattedData, updateHawbReal, updateMawbDate, deleteMawb } from './dataHandler.js';
 
 const regsContainer = document.querySelector(".data");
 
@@ -69,10 +69,11 @@ export function renderMawb() {
     regContainer.className = 'reg';
 
     regContainer.innerHTML = `
-      <span>
-        <strong>MAWB:</strong>
+      <span class="reg-header">
+        <strong>MAWB: </strong>
         <strong class="mawb">${mawb}</strong>
-        <small class="awb-date">${mawbDate}</small>
+        <small class="awb-date">  ${mawbDate}</small>
+        <button class="delete-mawb-btn" data-mawb="${mawb}">Borrar MAWB</button>
       </span>
     `;
 
@@ -389,6 +390,16 @@ export function renderHawb(mawb) {
     }
     savedData[mawb].date = selectedSaveDate;
 
+    // Actualizar fecha en el backend
+    try {
+      await updateMawbDate(mawb, selectedSaveDate);
+      console.log(`Fecha del MAWB ${mawb} actualizada en el backend`);
+    } catch (error) {
+      console.error(`Error al actualizar la fecha en el backend:`, error);
+      alert(`Error al guardar la fecha en el servidor`);
+      return;
+    }
+
     // Actualizar fecha mostrada en la lista externa (fuera del popup)
     const allRegs = document.querySelectorAll('.reg');
     allRegs.forEach(reg => {
@@ -402,7 +413,9 @@ export function renderHawb(mawb) {
     });
     
     if (hasSavedData) {
-      alert("Datos guardados correctamente en el servidor");
+      alert("✅ Cambios guardados correctamente (Datos + Fecha)");
+    } else {
+      alert("✅ Fecha actualizada correctamente");
     }
   });
   
