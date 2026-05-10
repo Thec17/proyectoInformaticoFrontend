@@ -1,5 +1,5 @@
 // eventHandler.js
-import { loadData, loadExistingDataFromBackend } from './dataHandler.js';
+import { loadData, loadExistingDataFromBackend, deleteMawb } from './dataHandler.js';
 import { renderMawb, renderHawb, exportToExcelByDate } from './uiRenderer.js';
 
 // Funciones para mostrar/ocultar indicador de carga
@@ -50,6 +50,24 @@ export function setupEventListeners() {
     const regElement = element.closest(".reg");
     const popupBackdrop = element.closest(".popup_backdrop");
     const btnClose = element.closest(".btn-close");
+    const deleteBtn = element.closest(".delete-mawb-btn");
+
+    if (deleteBtn) {
+      const mawb = deleteBtn.getAttribute("data-mawb");
+      if (mawb && confirm(`¿Estás seguro de que quieres borrar el MAWB ${mawb}? Esta acción no se puede deshacer.`)) {
+        showLoading();
+        deleteMawb(mawb)
+          .then(() => {
+            renderMawb();
+            hideLoading();
+          })
+          .catch((err) => {
+            console.error("Error borrando MAWB:", err);
+            hideLoading();
+          });
+      }
+      return; // Evitar que se abra el popup
+    }
 
     if (regElement && regElement.className.includes("reg")) {
       const mawb = regElement.querySelector(".mawb")?.textContent;
