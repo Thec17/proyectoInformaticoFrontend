@@ -273,6 +273,8 @@ main.android-container {
 
 /* Headers para tablas */
 .headers {
+    /* display: grid;
+    grid-template-columns: 1fr 2fr 2fr; */
     margin: 0;
 }
 
@@ -403,10 +405,18 @@ main.android-container {
     margin: 0;
 }
 
-.info_container > span.headers,
 .info_container > span.total {
     display: grid !important;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #bdbdbd;
+    margin: 0;
+}
+
+.info_container > span.headers {
+    display: grid !important;
+    grid-template-columns: 1fr 2fr 2fr;
     gap: 8px;
     padding: 12px 16px;
     border-bottom: 1px solid #bdbdbd;
@@ -583,7 +593,7 @@ span {
     }
 
     .headers, .row, .total {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 2fr 2fr;
         gap: 6px;
         padding: 10px 8px;
         font-size: 12px;
