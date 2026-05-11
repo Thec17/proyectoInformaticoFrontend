@@ -593,10 +593,17 @@ span {
     }
 
     .headers, .row, .total {
-        grid-template-columns: 1fr 2fr 2fr;
         gap: 6px;
         padding: 10px 8px;
         font-size: 12px;
+    }
+
+    .headers {
+        grid-template-columns: 1fr 2fr 2fr;
+    }
+
+    .row, .total {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
     }
 
     .android-controls {
